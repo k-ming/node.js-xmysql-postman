@@ -65,34 +65,27 @@ b、应用环境变量URL,写法{{URL}}
 ![环境变量的引用](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/getENV.jpg)
 
 #### 3、接口请求结果处理 
-		``` 清除postman的环境变量 search 
+		// 清除postman的环境变量 search 
 		pm.environment.unset("search");
-		```  
-		``` 用json解析响应结果
+		// 用json解析响应结果
 		var jsonData = JSON.parse(responseBody);
-		```    
-		``` 读取json数据中result
+		// 读取json数据中result
 		result = jsonData.pageResult.result;
 		// console.log(result.length);
-		```    
-		``` 新建一个空数组 rcodes
+		// 新建一个空数组 rcodes
 		var rcodes = [];
-		```    
-		```` 循环读取result，读取其中的robotCode,存入rcodes
+		// 循环读取result，读取其中的robotCode,存入rcodes
 		for (i=0;i<result.length;i++){
 			rcodes[i] = result[i].robotCode;
 			}
 		// console.log(rcodes.sort().toString());
-		```   
-		``` 将数组rcodes降序排列并转化为字符串，存入环境变量search
-		pm.environment.set('search',rcodes.sort().toString());
-		```  
+		// 将数组rcodes降序排列并转化为字符串，存入环境变量search
+		pm.environment.set('search',rcodes.sort().toString());  
 ![响应结果处理](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/response1.jpg)
 #### 4、读取前一个接口返回的值search，并请求xmysql，对结果进行对比
-		``` 新建postman test 
+		// 新建postman test 
 		pm.test('条件查询机器人校验',function(){
-		``` 
-		``` 把从数据库读取的结果存入数组，并转化为字符串
+		// 把从数据库读取的结果存入数组，并转化为字符串
 			var jsonData = JSON.parse(responseBody);
 			var codes = [];
 			for (i=0;i<jsonData.length;i++){
@@ -101,15 +94,13 @@ b、应用环境变量URL,写法{{URL}}
 
 			var expect = codes.sort().toString();  
 			console.log(expect);
-		```
-		```  断言结果
+		//  断言结果
 			if (pm.environment.get("search") == expect){
 				tests['条件查询验证通过：'+ expect] = true;
 			}else{
 				tests['条件查询验证失败：'+ expect] = false;
 			}    
 		});
-		```  
 ![添加断言](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/assert1.jpg)
 ![断言结果](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/assert2.jpg)
 
@@ -136,7 +127,9 @@ b、应用环境变量URL,写法{{URL}}
 ##### 2、使用 newman 命令生成接口测试报告  
 		1、安装newman ,cmd命令：npm install -g newman
 		2、导出json格式的测试用例,注意：要使用的环境变量也要一并导出
-		![export1](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export1.jpg)![export2](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export2.jpg)![export3](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export3.jpg)
+		![export1](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export1.jpg)
+		![export2](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export2.jpg)
+		![export3](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export3.jpg)
 		3、使用newman执行测试用例，并生成测试报告
 		cmd:newman run C:\Users\lenovo\Desktop\postman_collection.json --environment C:\Users\lenovo\Desktop\postman_environment.json --reporters html --reporter-html-export C:\Users\lenovo\Desktop\htmlReport.html
 ![testReport](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/testreport.jpg)
