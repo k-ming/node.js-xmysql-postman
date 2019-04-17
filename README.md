@@ -55,14 +55,14 @@ http://localhost:3000/api/robot_speak?_fields=id,face_id,face_url,face_name,spea
 
 ### 五、postman+nodejs+xmysql 实现接口数据与数据库对比  
 #### 1、配置postman环境变量，点击设置按钮，进入新建环境变量界面，点击add,输入环境名称 机器人测试环境，新建环境变量URL(待验证的接口host) ，restAPI(xmysql接口host)
-![新建环境]
+![新建环境](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/config1.jpg)
 
 #### 2、环境变量的引用：  
 a、切换到机器人测试环境（可以设置多个环境，如生产环境）   
-![切换环境]  
+![切换环境](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/changeENV.jpg)  
 
 b、应用环境变量URL,写法{{URL}}  
-![环境变量的引用]
+![环境变量的引用](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/getENV.jpg)
 
 #### 3、接口请求结果处理 
 		``` 清除postman的环境变量 search 
@@ -81,7 +81,7 @@ b、应用环境变量URL,写法{{URL}}
 		// console.log(rcodes.sort().toString());
 		``` 将数组rcodes降序排列并转化为字符串，存入环境变量search
 		pm.environment.set('search',rcodes.sort().toString());
-![响应结果处理]
+![响应结果处理](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/response1.jpg)
 #### 4、读取前一个接口返回的值search，并请求xmysql，对结果进行对比
 		``` 新建postman test 
 		pm.test('条件查询机器人校验',function(){
@@ -102,11 +102,11 @@ b、应用环境变量URL,写法{{URL}}
 				tests['条件查询验证失败：'+ expect] = false;
 			}    
 		});
-![添加断言]
-![断言结果]
+![添加断言](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/assert1.jpg)
+![断言结果](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/assert2.jpg)
 
 ### 六、使用postman的Runner批量验证接口
-#### 新建runner ，并设置一下参数
+#### 1、新建runner ，并设置一下参数
 		1、选择测试用例接口文件夹
 		2、选择环境
 		3、设置迭代次数
@@ -117,21 +117,21 @@ b、应用环境变量URL,写法{{URL}}
 		var book = data.book;
 		pm.environment.set("book",book);
 		在接口中引用直接写成{{book}}即可）  
-![新建Runner]
+![新建Runner](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/runner1.jpg)
 
 #### 运行runner ，查看测试结果
-##### pass代表校验通过，faill代表校验失败，可以点击请求查看详细请求过程  
+##### 1、pass代表校验通过，faill代表校验失败，可以点击请求查看详细请求过程  
 
-![result1]
+![result1](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/result1.jpg)
 
 
-##### 使用 newman 命令生成接口测试报告  
+##### 2、使用 newman 命令生成接口测试报告  
 		1、安装newman ,cmd命令：npm install -g newman
 		2、导出json格式的测试用例,注意：要使用的环境变量也要一并导出
 		![export1]![export2]![export3]
 		3、使用newman执行测试用例，并生成测试报告
 		cmd:newman run C:\Users\lenovo\Desktop\postman_collection.json --environment C:\Users\lenovo\Desktop\postman_environment.json --reporters html --reporter-html-export C:\Users\lenovo\Desktop\htmlReport.html
-![testReport]
+![testReport](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/testreport.jpg)
 
 
 
