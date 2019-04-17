@@ -1,0 +1,1994 @@
+{
+	"info": {
+		"_postman_id": "affdefa2-9a80-43e7-8407-04aaeb1ef653",
+		"name": "云绅科技-机器人后台",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "信息管理",
+			"item": [
+				{
+					"name": "管理员登陆",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4bfe5d46-f064-4129-8b54-3d60ddfb7b41",
+								"exec": [
+									"pm.environment.unset(\"loginToken\");",
+									"pm.test(\"saveToken\",function(){",
+									"    // console.log(\"---------------start---------------------\");",
+									"    var jsonData = JSON.parse(responseBody)  // json解析响应结果",
+									"    pm.environment.set(\"loginToken\", jsonData.value.token);",
+									"    console.log(pm.environment.get(\"loginToken\"));",
+									"    ",
+									"});",
+									"pm.test(\"Body matches string\", function () {",
+									"    pm.expect(pm.response.text()).to.include(\"OK\");",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userName",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{URL}}/robot/login/userLogin"
+					},
+					"response": []
+				},
+				{
+					"name": "信息管理第一次请求",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": "content-type,mallid,token",
+								"type": "text"
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": "POST",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{URL}}/robot/running/queryList"
+					},
+					"response": []
+				},
+				{
+					"name": "检查机器人编号是否唯一",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e4eea4dc-5d8d-49be-a06b-df18648cb4f9",
+								"exec": [
+									"// pm.test(\"自定义断言\", function(){",
+									"    var responseData = JSON.parse(responseBody);",
+									"    if (responseData.value == 0){",
+									"        tests['机器人编号已存在：' + 0 ] = true;",
+									"    }",
+									"    else if (responseData.value == 0){",
+									"        tests['机器人编号可以使用' + 1 ] = true;",
+									"    }",
+									"    else {",
+									"        tests['检查失败' + 1 ] = true;",
+									"    }",
+									"// });"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f5809a77-fed2-4b35-8ebb-bd148a8a2446",
+								"exec": [
+									"// console.log(pm.environment.get(\"loginToke\"));",
+									"",
+									"// 读取文件中的机器人编码",
+									"// var robotCode = 'HX-0006';",
+									"// if (data.code){",
+									"//     robotCode = data.code;",
+									"// }",
+									"// pm.environment.set(\"robotCode\", robotCode);",
+									"",
+									"",
+									"// 读取预期结果",
+									"// var value = 1",
+									"// if (data.result){",
+									"//     value = data.result;",
+									"// }",
+									"// pm.environment.set(\"value\", value);",
+									"",
+									"var robotCode = 'HX-0006'",
+									"pm.environment.set(\"robotCode\", robotCode)",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"type": "text",
+								"value": " application/json, text/plain, */*"
+							},
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": " application/json;charset=UTF-8;multipart/form-data"
+							},
+							{
+								"key": "mallId",
+								"type": "text",
+								"value": " 10062"
+							},
+							{
+								"key": "Origin",
+								"type": "text",
+								"value": " http://10.11.23.137"
+							},
+							{
+								"key": "Referer",
+								"type": "text",
+								"value": " http://10.11.23.137/info/list"
+							},
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{loginToken}}"
+							},
+							{
+								"key": "User-Agent",
+								"type": "text",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"robotCode\":\"{{robotCode}}\"}"
+						},
+						"url": "{{URL}}/robot/info/checkRobotCodeUnique"
+					},
+					"response": []
+				},
+				{
+					"name": "检查机器人名称是否唯一",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f2efdf2e-cf8d-4883-8231-83f2992b2162",
+								"exec": [
+									"var Assertion = pm.environment.get(\"robotName\"); ",
+									"var responseData = JSON.parse(responseBody)",
+									"if (responseData.value == 0){",
+									"    tests['机器人名称已存在：'+0]= true;",
+									"}else if(responseData.value == 0){",
+									"    tests['机器人名称可以使用：'+1]= true;",
+									"}else{",
+									"    tests['机器人名称检查失败：'+1]= true;",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7f5cbb40-e08e-4fa5-a9d7-4b69f256fdde",
+								"exec": [
+									"var robotName = '21号机器人';",
+									"pm.environment.set(\"robotName\", robotName);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"robotName\":\"{{robotName}}\"}"
+						},
+						"url": "{{URL}}/robot/info/checkRobotNameUnique"
+					},
+					"response": []
+				},
+				{
+					"name": "信息管理列表数据获取",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d044d0f4-6f57-47f4-8318-a1e4fd0dfe2f",
+								"exec": [
+									"pm.environment.unset(\"codes\");",
+									"pm.test(\"web条件查询结果\", function () {",
+									"    var jsonData = JSON.parse(responseBody); // json解析响应结果",
+									"    var codes = [];  //定义一个空数组",
+									"    // console.log(jsonData.pageResult.result);",
+									"    // console.log(jsonData.pageResult.result.length);",
+									"    for (i = 0;i<jsonData.pageResult.result.length;i++){ //根据响应结果数组的长度将 robot_code 存入codes数组",
+									"        codes[i] = jsonData.pageResult.result[i].robotCode;",
+									"    }",
+									"    var c1 = codes.sort().toString()",
+									"    console.log(c1);",
+									"    pm.environment.set(\"codes\",c1);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5f8ad5dc-486f-4515-aa3e-2bfb87c0a6fc",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json, text/plain, */*",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": "10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": "http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": "http://10.11.23.137/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pageNo\":1,\"pageSize\":10,\"buildingId\":\"\",\"robotCode\":\"\",\"robotCodeSearch\":\"\",\"robotStatus\":\"\",\"floorId\":\"2\"}"
+						},
+						"url": "{{URL}}/robot/running/queryList"
+					},
+					"response": []
+				},
+				{
+					"name": "信息管理列表数据校验",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1df94035-8505-4dc7-89c8-954686d5f8ee",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "892d3e7b-ed25-4973-942d-ae524f65481c",
+								"exec": [
+									"pm.test(\"信息管理列表数据校验\", function () {",
+									"    c1 = pm.environment.get(\"codes\");  // 获取查询结果1设置的环境变量 codes",
+									"    console.log(c1);",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    // console.log(jsonData)",
+									"    var a1 = [];",
+									"    for (i=0;i<jsonData.length;i++){",
+									"        a1[i] = jsonData[i].pr_robot_code;",
+									"    }",
+									"    console.log(a1);",
+									"    c2 = a1.sort().toString();// 将数组升序排列并转化成字符串",
+									"    ",
+									"});",
+									"if (c1 == c2){",
+									"        tests['信息管理列表验证通过:' + c2 ] = true;",
+									"    }",
+									"else{",
+									"        tests['信息管理列表验证失败:' + c2 ] = false;",
+									"    }",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{restAPI}}/xjoin?_join=pl.robot_info,_j,pr.robot_running&_on1=(pl.robot_code,eq,pr.robot_code)&_fields=pl.is_valid,pr.robot_code,pl.robot_name,pl.mall_id,pl.floor_id&_p=1&_size=10&_where=(pl.is_valid,eq,1)~and(pl.mall_id,eq,10062)~and(pl.floor_id,eq,2)",
+							"host": [
+								"{{restAPI}}"
+							],
+							"path": [
+								"xjoin"
+							],
+							"query": [
+								{
+									"key": "_join",
+									"value": "pl.robot_info,_j,pr.robot_running"
+								},
+								{
+									"key": "_on1",
+									"value": "(pl.robot_code,eq,pr.robot_code)"
+								},
+								{
+									"key": "_fields",
+									"value": "pl.is_valid,pr.robot_code,pl.robot_name,pl.mall_id,pl.floor_id"
+								},
+								{
+									"key": "_p",
+									"value": "1"
+								},
+								{
+									"key": "_size",
+									"value": "10"
+								},
+								{
+									"key": "_where",
+									"value": "(pl.is_valid,eq,1)~and(pl.mall_id,eq,10062)~and(pl.floor_id,eq,2)"
+								}
+							]
+						},
+						"description": "mall_id = 10062\nis_valid = 1\nfloor_id = 3"
+					},
+					"response": []
+				},
+				{
+					"name": "条件查询机器人",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8d0aa78-b173-41f1-8b0e-72efc7453905",
+								"exec": [
+									"pm.environment.unset(\"search\");",
+									"var jsonData = JSON.parse(responseBody);",
+									"result = jsonData.pageResult.result;",
+									"// console.log(result.length);",
+									"var rcodes = [];",
+									"for (i=0;i<result.length;i++){",
+									"    rcodes[i] = result[i].robotCode;",
+									"    }",
+									"// console.log(rcodes.sort().toString());",
+									"pm.environment.set('search',rcodes.sort().toString());",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": " eyJjdXJyZW50VGltZSI6IjE1NDcxMDQ0Mzc3OTAiLCJpcEFkZHJlc3MiOiIxMC4xMS4zMy4xMyIsInVzZXJOYW1lIjoiYWRtaW4ifQ==",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pageNo\":1,\"pageSize\":10,\"buildingId\":1,\"robotCode\":\"\",\"robotCodeSearch\":\"\",\"robotStatus\":\"\",\"floorId\":3}"
+						},
+						"url": "{{URL}}/robot/running/queryList"
+					},
+					"response": []
+				},
+				{
+					"name": "条件查询机器人校验",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e2086dc4-d360-4cb7-a948-958f8ad5827f",
+								"exec": [
+									"pm.test('条件查询机器人校验',function(){",
+									"    var jsonData = JSON.parse(responseBody);",
+									"    var codes = [];",
+									"    for (i=0;i<jsonData.length;i++){",
+									"        codes[i] = jsonData[i].pr_robot_code;",
+									"    }",
+									"",
+									"    var expect = codes.sort().toString();",
+									"    ",
+									"    console.log(expect);",
+									"    if (pm.environment.get(\"search\") == expect){",
+									"        tests['条件查询验证通过：'+ expect] = true;",
+									"    }else{",
+									"        tests['条件查询验证失败：'+ expect] = false;",
+									"    }",
+									"    ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{restAPI}}/xjoin?_join=pl.robot_info,_j,pr.robot_running&_on1=(pl.robot_code,eq,pr.robot_code)&_fields=pl.mall_id,pl.building_id,pl.floor_id,pr.robot_code,pl.robot_name,pr.robot_status&_p=1&_size=10&_where=(pl.mall_id,eq,10062)~and(pl.building_id,eq,1)~and(pl.floor_id,eq,3)",
+							"host": [
+								"{{restAPI}}"
+							],
+							"path": [
+								"xjoin"
+							],
+							"query": [
+								{
+									"key": "_join",
+									"value": "pl.robot_info,_j,pr.robot_running"
+								},
+								{
+									"key": "_on1",
+									"value": "(pl.robot_code,eq,pr.robot_code)"
+								},
+								{
+									"key": "_fields",
+									"value": "pl.mall_id,pl.building_id,pl.floor_id,pr.robot_code,pl.robot_name,pr.robot_status"
+								},
+								{
+									"key": "_p",
+									"value": "1"
+								},
+								{
+									"key": "_size",
+									"value": "10"
+								},
+								{
+									"key": "_where",
+									"value": "(pl.mall_id,eq,10062)~and(pl.building_id,eq,1)~and(pl.floor_id,eq,3)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "新增机器人",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"robotCode\":\"HX-0032\",\"robotName\":\"32号机器人\",\"mallId\":10062,\"buildingId\":1,\"floorId\":2,\"regionId\":2,\"workPoint\":\"张江\",\"pileId\":2,\"robotVendor\":1}"
+						},
+						"url": "{{URL}}/robot/info/addOne"
+					},
+					"response": []
+				},
+				{
+					"name": "检查机器人新增是否成功",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a49f4006-c179-418f-99b1-82ff536a7c1c",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"console.log(jsonData[0].id); // 读取object对象中指定的键的值",
+									"pm.environment.set('robotID',jsonData[0].id);",
+									"pm.test(\"检查新增机器人是否成功\", function () {",
+									"        if (jsonData[0].robot_code == 'HX-0032'){",
+									"            // console.log(jsonData[0][item])",
+									"            tests['机器人新增成功：'+ jsonData[0].robot_code] = true;",
+									"        }else{",
+									"            tests['机器人新增失败：'+ jsonData[0].robot_code] = false;",
+									"        }",
+									"        ",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{restAPI}}/robot_info?_fields=id,robot_code,robot_name,mall_id,building_id,floor_id&_where=(robot_code,eq,HX-0032)",
+							"host": [
+								"{{restAPI}}"
+							],
+							"path": [
+								"robot_info"
+							],
+							"query": [
+								{
+									"key": "_fields",
+									"value": "id,robot_code,robot_name,mall_id,building_id,floor_id"
+								},
+								{
+									"key": "_where",
+									"value": "(robot_code,eq,HX-0032)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除新增的机器人",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{restAPI}}/robot_info/:id",
+							"host": [
+								"{{restAPI}}"
+							],
+							"path": [
+								"robot_info",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{robotID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改机器人信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "295ee8b8-485b-4f9a-8c5d-ff2fd989c319",
+								"exec": [
+									"pm.test(\"Status code name has string\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":24,\"robotCode\":\"HX-0008\",\"robotName\":\"8号机器人\",\"mallId\":10062,\"buildingId\":1,\"floorId\":2,\"regionId\":4,\"workPoint\":\"真北路\",\"pileId\":4,\"robotVendor\":2}"
+						},
+						"url": "{{URL}}/robot/info/updateOne"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "配置管理",
+			"item": [
+				{
+					"name": "配置管理opt请求",
+					"request": {
+						"method": "OPTIONS",
+						"header": [
+							{
+								"key": "Access-Control-Request-Headers",
+								"value": " content-type,mallid,token",
+								"type": "text"
+							},
+							{
+								"key": "Access-Control-Request-Method",
+								"value": " POST",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{URL}}/robot/setting/queryOne"
+					},
+					"response": []
+				},
+				{
+					"name": "获取配置管理信息",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "89910cc7-f335-480c-9e6b-c6da737d0279",
+								"exec": [
+									"tests['获取配置管理信息'] = pm.response.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/config/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": "{{URL}}/robot/setting/queryOne"
+					},
+					"response": []
+				},
+				{
+					"name": "高级设置表单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ce68cee5-8be6-4ff0-aded-2efbe684ea63",
+								"exec": [
+									"pm.test(\"高级设置表单\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 2",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Proxy-Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/config/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": "{{URL}}/robot/setting/queryOne"
+					},
+					"response": []
+				},
+				{
+					"name": "保存高级设置",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "11cb6748-2747-44fc-ad3a-19a0ed1e6eb4",
+								"exec": [
+									"tests['保存高级设置'] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 80",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Proxy-Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/config/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"walk\":\"0.6\",\"volume\":3,\"onOffStart\":\"06:00\",\"onOffEnd\":\"05:00\",\"navigation\":1}"
+						},
+						"url": "{{URL}}/robot/setting/saveRobotSetting"
+					},
+					"response": []
+				},
+				{
+					"name": "告警设置表单",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fc6cd31e-1705-4cee-a016-a7dfd939a865",
+								"exec": [
+									"tests['告警设置表单'] = pm.response.code === 200"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 9",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/config/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":-1}"
+						},
+						"url": "{{URL}}/robot/setting/queryOne"
+					},
+					"response": []
+				},
+				{
+					"name": "保存告警设置",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00f56ce3-4818-4ba6-b9b6-cd2d59f4f4b7",
+								"exec": [
+									"tests['保存告警设置'] = pm.response.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 120",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/config/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":-1,\"warnEnd\":\"21:00\",\"warnMobile\":\"13356863321\",\"warnSpace\":600,\"warnStart\":\"08:00\",\"warnStatus\":1,\"warnTime\":600}"
+						},
+						"url": "{{URL}}/robot/setting/saveRobotSetting"
+					},
+					"response": []
+				},
+				{
+					"name": "告警日志列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "88ba3245-2ef7-4b56-8572-494db32fc661",
+								"exec": [
+									"tests['告警日志列表'] = pm.response.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 111",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": "10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/config/log",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pageNo\":1,\"pageSize\":20,\"createTime\":null,\"robotCodeSearch\":\"\",\"buildingId\":\"\",\"floorId\":\"\",\"robotStatus\":\"\"}"
+						},
+						"url": "{{URL}}/robot/warn/queryRobotWarnList"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "人脸识别",
+			"item": [
+				{
+					"name": "人脸识别列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ae64ec83-c119-4964-9554-ba909d0904b8",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"var results = [];",
+									"",
+									"for (i=0; i<jsonData.result.length; i++){",
+									"    results[i] = jsonData.result[i].faceId;",
+									"}",
+									"",
+									"tests['人脸识别列表 faceId:'+results] = pm.response.code === 200;",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://10.11.23.137",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://10.11.23.137/face/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": " {{loginToken}}",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": " Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{}"
+						},
+						"url": "{{URL}}/robot/speak/queryList"
+					},
+					"response": []
+				},
+				{
+					"name": "修改陌生人问候语",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29cdb809-8651-43ad-b242-6efe6189d127",
+								"exec": [
+									"tests[\"注册人脸\" ] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": " {{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"faceName\":\"发华\",\"requestList\":[{\"speak\":\"您好，发华小老弟\",\"type\":1}],\"mallId\":10062,\"faceImage\":\"{{base64}}\"}"
+						},
+						"url": "{{URL}}/robot/speak/updateRobotSpeakGroup"
+					},
+					"response": []
+				},
+				{
+					"name": "人脸注册结果检查",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a3f83a8a-9b57-4892-8cc2-68319acbbcb6",
+								"exec": [
+									"tests[\"人脸注册结果\"] = JSON.parse(responseBody)[0].face_id === pm.environment.get(\"faceId\");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{restAPI}}/robot_speak?_fields=id,face_id,face_url,face_name,speak&_where=(face_id,eq,{{faceId}})",
+							"host": [
+								"{{restAPI}}"
+							],
+							"path": [
+								"robot_speak"
+							],
+							"query": [
+								{
+									"key": "_fields",
+									"value": "id,face_id,face_url,face_name,speak"
+								},
+								{
+									"key": "_where",
+									"value": "(face_id,eq,{{faceId}})"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "人机交互管理",
+			"item": [
+				{
+					"name": "增加语音记录",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"answer\": \"出门左拐\",\r\n  \"answerHash\": \"string\",\r\n  \"answerVoice\": \"http://img1.uat1.rs.com/g1/M00/1B/95/wKh8y1wIk96AbdiIAAGVAOOmhRA189.wav\",\r\n  \"buildingId\": 3,\r\n  \"createTimeOrderby\": 0,\r\n  \"createUser\": \"admin\",\r\n  \"customerId\": 1,\r\n  \"endTime\": \"2019-01-08T09:54:57.212Z\",\r\n  \"floorId\": 1,\r\n  \"id\": 39,\r\n  \"mallId\": 10062,\r\n  \"mallName\": \"真北路广场\",\r\n  \"qaSearch\": \"string\",\r\n  \"question\": \"请问厕所在那里\",\r\n  \"questionHash\": \"string\",\r\n  \"questionVoice\": \"http://img1.uat1.rs.com/g1/M00/1B/95/wKh8y1wIk96AbdiIAAGVAOOmhRA189.wav\",\r\n  \"robotCode\": \"HX-0002\",\r\n  \"robotCodeSearch\": \"string\",\r\n  \"robotName\": \"2号机器人\",\r\n  \"startTime\": \"2019-01-08T09:54:57.213Z\",\r\n  \"status\": 0,\r\n  \"updateUser\": \"admin\"\r\n}"
+						},
+						"url": "{{URL}}/robot/talk/saveRobotTalk"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "充电桩管理",
+			"item": [
+				{
+					"name": "充电桩列表",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c036668b-e20b-4da4-9b96-fcdf7d88bff5",
+								"exec": [
+									"tests['充电桩列表'] = pm.response.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"var results = [];",
+									"var resultN = [];",
+									"",
+									"for (i=0; i<jsonData.pageResult.result.length; i++){",
+									"    results[i] = jsonData.pageResult.result[i].pileCode;",
+									"    resultN[i] = jsonData.pageResult.result[i].pileName; ",
+									"}",
+									"",
+									"// console.log(results[0]);",
+									"pm.environment.unset(\"pId\");",
+									"pm.environment.unset(\"pNa\");",
+									"",
+									"pm.environment.set('pId',results[0]);",
+									"pm.environment.set('pNa',resultN[0]);",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 26",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/charging/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pageNo\":1,\"pageSize\":10}"
+						},
+						"url": "{{URL}}/robot/pile/queryList"
+					},
+					"response": []
+				},
+				{
+					"name": "充电桩编号唯一性",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c3e8412-2d54-487b-9cd6-9801fbd27b01",
+								"exec": [
+									"tests['充电桩编号唯一性'] = JSON.parse(responseBody).value === 0;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Language",
+								"value": " zh-CN,zh;q=0.9,en;q=0.8",
+								"type": "text"
+							},
+							{
+								"key": "Cache-Control",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Connection",
+								"value": " keep-alive",
+								"type": "text"
+							},
+							{
+								"key": "Content-Length",
+								"value": " 24",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/charging/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pileCode\":\"{{pId}}\"}"
+						},
+						"url": "{{URL}}/robot/pile/checkPileCodeUnique"
+					},
+					"response": []
+				},
+				{
+					"name": "充电桩名称唯一性",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "efc97e58-a293-444a-a49d-5454565ac6a5",
+								"exec": [
+									"tests['充电桩名称唯一性'] = JSON.parse(responseBody).value === 0;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Host",
+								"value": " api.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 10062",
+								"type": "text"
+							},
+							{
+								"key": "Origin",
+								"value": " http://op.robot.aiyunshen.com",
+								"type": "text"
+							},
+							{
+								"key": "Pragma",
+								"value": " no-cache",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/charging/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"pileName\":\"{{pNa}}\"}"
+						},
+						"url": "{{URL}}/robot/pile/checkPileNameUnique"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "数据统计",
+			"item": [
+				{
+					"name": "数据采集",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{URL}}/test/collectNavigationJob"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "client版本升级",
+			"item": [
+				{
+					"name": "{{URL}}/robot/info/upgradeRobot",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "3ecf8229-aa88-468c-9d93-716670766206",
+								"exec": [
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": " application/json, text/plain, */*",
+								"type": "text"
+							},
+							{
+								"key": "Accept-Encoding",
+								"value": " gzip, deflate",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": " application/json;charset=UTF-8;multipart/form-data",
+								"type": "text"
+							},
+							{
+								"key": "mallId",
+								"value": " 100",
+								"type": "text"
+							},
+							{
+								"key": "Referer",
+								"value": " http://op.robot.aiyunshen.com/info/list",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"versionType\":1,\"versionValue\":\"2.2.0\",\"robotCode\":\"HX-00004\"}"
+						},
+						"url": "{{URL}}/robot/info/upgradeRobot"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "机器人巡游",
+			"item": [
+				{
+					"name": "巡游打断接口",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"robotCode\":\"HX-00004\"}"
+						},
+						"url": "{{URL}}/robot/cruise/interruptCruise"
+					},
+					"response": []
+				},
+				{
+					"name": "获取巡游状态",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "cead6e73-58fa-4d50-9894-79f64a4ee6eb",
+								"exec": [
+									"// \"currentStatus\": 1 巡游中 2 被打断 3 结束"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{loginToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"robotCode\":\"HX-00004\"}\n"
+						},
+						"url": "{{URL}}/robot/cruise/getCruiseStatus"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "a89e2575-c81c-4911-b7f1-a0fc639ac597",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "627cda0c-3ac7-47cf-aa0f-4e9845d63e1e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
