@@ -85,6 +85,7 @@ b、应用环境变量URL,写法{{URL}}
 #### 4、读取前一个接口返回的值search，并请求xmysql，对结果进行对比
 		``` 新建postman test 
 		pm.test('条件查询机器人校验',function(){
+		```
 		``` 把从数据库读取的结果存入数组，并转化为字符串
 			var jsonData = JSON.parse(responseBody);
 			var codes = [];
