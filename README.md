@@ -106,7 +106,7 @@ b、应用环境变量URL,写法{{URL}}
 ![断言结果](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/assert2.jpg)
 
 ### 六、使用postman的Runner批量验证接口
-#### 1、新建runner ，并设置一下参数
+#### 1、新建runner ，并设置以下参数
 		1、选择测试用例接口文件夹
 		2、选择环境
 		3、设置迭代次数
@@ -128,7 +128,7 @@ b、应用环境变量URL,写法{{URL}}
 ##### 2、使用 newman 命令生成接口测试报告  
 		1、安装newman ,cmd命令：npm install -g newman
 		2、导出json格式的测试用例,注意：要使用的环境变量也要一并导出
-		![export1]![export2]![export3]
+		![export1](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export1.jpg)![export2](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export2.jpg)![export3](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export3.jpg)
 		3、使用newman执行测试用例，并生成测试报告
 		cmd:newman run C:\Users\lenovo\Desktop\postman_collection.json --environment C:\Users\lenovo\Desktop\postman_environment.json --reporters html --reporter-html-export C:\Users\lenovo\Desktop\htmlReport.html
 ![testReport](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/testreport.jpg)
