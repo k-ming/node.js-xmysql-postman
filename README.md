@@ -130,6 +130,7 @@ b、应用环境变量URL,写法{{URL}}
 ![export1](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export1.jpg)
 ![export2](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export2.jpg)
 ![export3](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/export3.jpg)  
+
 		3、使用newman执行测试用例，并生成测试报告
 		cmd:newman run C:\Users\lenovo\Desktop\postman_collection.json --environment C:\Users\lenovo\Desktop\postman_environment.json --reporters html --reporter-html-export C:\Users\lenovo\Desktop\htmlReport.html
 ![testReport](https://github.com/ming-zh/node.js-xmysql-postman/blob/master/imags/testreport.jpg)
